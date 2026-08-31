@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Conextsol Projects"
+description = "A responsive case study portfolio for Conextsol, showcasing client work, measurable outcomes, services, process, and easy paths to start a project."
+version = "1.0.0"
+id = "artifacts/conextsol-projects"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18882
+
+[services.development]
+run = "pnpm --filter @workspace/conextsol-projects run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/conextsol-projects", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/conextsol-projects/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18882"
+BASE_PATH = "/"
