@@ -1,6 +1,6 @@
-# [Project name]
+# Conextsol Projects
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Standalone portfolio and case-study showcase for Conextsol, a Cape Town web design and software studio.
 
 ## Run & Operate
 
@@ -22,15 +22,22 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/conextsol-projects/src/data/portfolio.ts` — case study content and project imagery
+- `artifacts/conextsol-projects/src/components/` — shared layout, portfolio, SEO, and CTA components
+- `artifacts/conextsol-projects/src/pages/` — home, projects, detail, about, contact, and not-found routes
+- `artifacts/conextsol-projects/src/index.css` — Conextsol brand tokens and visual system
+- `artifacts/conextsol-projects/public/` — Cloudflare Pages redirects, headers, robots, sitemap, and Wrangler config
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- The portfolio is a frontend-only Vite SPA so it can deploy as static files to Cloudflare Pages.
+- Wouter handles internal navigation and the route-aware SEO component updates metadata per page.
+- Case-study visuals are bundled local assets to keep the static site reliable when remote image hosts are unavailable.
+- Contact conversion uses WhatsApp and mailto actions; no backend is required for the brochure-site form.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+Visitors can browse six case studies, filter work by industry, open detailed project stories with outcomes and process, learn about the studio, and start a conversation through WhatsApp or email.
 
 ## User preferences
 

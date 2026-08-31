@@ -1,0 +1,1 @@
+- [Portfolio asset hosting](portfolio-asset-hosting.md) — bundle core case-study visuals locally when static previews or deployments cannot rely on remote placeholder hosts.
