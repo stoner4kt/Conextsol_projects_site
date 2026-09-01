@@ -1,8 +1,5 @@
 # Deploying to Cloudflare (Workers / Pages)
 
-Your project is deployed via **Wrangler** (`npx wrangler versions upload`).
-That needs a root `wrangler.jsonc` that points at the built static files.
-
 ## Exact Cloudflare dashboard settings
 
 **Workers & Pages → your project → Settings → Builds**
@@ -11,11 +8,8 @@ That needs a root `wrangler.jsonc` that points at the built static files.
 |---------|-------------|
 | **Production branch** | `main` |
 | **Build command** | `pnpm run build:cloudflare` |
-| **Deploy command** | `npx wrangler versions upload` (default is fine if this is already set) |
+| **Deploy command** | `npx wrangler versions upload` |
 | **Root directory** | *(leave empty)* |
-
-You do **not** need a separate “Build output directory” when using the Workers
-assets + `wrangler.jsonc` flow — the output path is defined in `wrangler.jsonc`.
 
 ### Environment variables (Production)
 
@@ -26,27 +20,26 @@ assets + `wrangler.jsonc` flow — the output path is defined in `wrangler.jsonc
 | `NODE_VERSION` | `22` |
 | `PNPM_VERSION` | `10.11.1` |
 
-### After changing settings
+### After every config change
 
-1. Merge the fix branch to `main`
-2. **Clear build cache**
-3. **Retry deployment**
+1. Clear build cache  
+2. Retry deployment  
 
-## What the root `wrangler.jsonc` does
+## How routing works
+
+SPA client-side routes are handled by **root `wrangler.jsonc`**:
 
 ```jsonc
-{
-  "name": "conextsol-projects",
-  "compatibility_date": "2026-09-01",
-  "assets": {
-    "directory": "./artifacts/conextsol-projects/dist/public",
-    "not_found_handling": "single-page-application"
-  }
+"assets": {
+  "directory": "./artifacts/conextsol-projects/dist/public",
+  "not_found_handling": "single-page-application"
 }
 ```
 
-- `assets.directory` → where Vite writes the site  
-- `not_found_handling: single-page-application` → client-side routing (React/wouter) works  
+Do **not** use `/* /index.html 200` in `public/_redirects` — that conflicts
+with Workers static assets and causes deploy error code 100324.
 
-If your Cloudflare project has a **different name**, either rename the project
-to `conextsol-projects` or change the `"name"` field in `wrangler.jsonc` to match.
+## Project name
+
+`wrangler.jsonc` uses `"name": "conextsol-projects"`. It must match your
+Cloudflare project name, or change the JSON field to match.
