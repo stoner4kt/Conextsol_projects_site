@@ -1,0 +1,9 @@
+{
+  "name": "conextsol-projects",
+  "compatibility_date": "2026-09-01",
+  // Static SPA only — no Worker script (assets-only Worker)
+  "assets": {
+    "directory": "./artifacts/conextsol-projects/dist/public",
+    "not_found_handling": "single-page-application"
+  }
+}
