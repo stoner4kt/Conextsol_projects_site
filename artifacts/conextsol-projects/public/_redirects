@@ -1,1 +1,5 @@
-/* /index.html 200
+# SPA fallback is configured in the root wrangler.jsonc:
+#   assets.not_found_handling = "single-page-application"
+#
+# Do NOT add `/* /index.html 200` here — Cloudflare rejects it as an
+# infinite redirect loop when used together with Workers static assets.
