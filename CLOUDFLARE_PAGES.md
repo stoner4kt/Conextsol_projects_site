@@ -1,17 +1,15 @@
-# Deploying to Cloudflare (Workers / Pages)
+# Deploying to Cloudflare
 
-## Exact Cloudflare dashboard settings
+## Dashboard settings
 
-**Workers & Pages → your project → Settings → Builds**
+| Setting | Value |
+|---------|--------|
+| Production branch | `main` |
+| Build command | `pnpm run build:cloudflare` |
+| Deploy command | `npx wrangler versions upload` |
+| Root directory | *(empty)* |
 
-| Setting | Exact value |
-|---------|-------------|
-| **Production branch** | `main` |
-| **Build command** | `pnpm run build:cloudflare` |
-| **Deploy command** | `npx wrangler versions upload` |
-| **Root directory** | *(leave empty)* |
-
-### Environment variables (Production)
+### Environment variables
 
 | Variable | Value |
 |----------|--------|
@@ -20,26 +18,13 @@
 | `NODE_VERSION` | `22` |
 | `PNPM_VERSION` | `10.11.1` |
 
-### After every config change
+After changes: clear build cache → retry deploy.
 
-1. Clear build cache  
-2. Retry deployment  
+## How the site is served
 
-## How routing works
+- Vite builds into `artifacts/conextsol-projects/dist/public`
+- Root `wrangler.jsonc` points assets at that folder
+- Root `worker.js` always returns `env.ASSETS.fetch(request)` so the default Hello World Worker is replaced
+- SPA routes use `not_found_handling: single-page-application`
 
-SPA client-side routes are handled by **root `wrangler.jsonc`**:
-
-```jsonc
-"assets": {
-  "directory": "./artifacts/conextsol-projects/dist/public",
-  "not_found_handling": "single-page-application"
-}
-```
-
-Do **not** use `/* /index.html 200` in `public/_redirects` — that conflicts
-with Workers static assets and causes deploy error code 100324.
-
-## Project name
-
-`wrangler.jsonc` uses `"name": "conextsol-projects"`. It must match your
-Cloudflare project name, or change the JSON field to match.
+Project name in `wrangler.jsonc` must match the Cloudflare Worker name (`conextsol-projects`).
