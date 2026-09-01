@@ -1,5 +1,4 @@
+# Prefer the root wrangler.jsonc for Cloudflare deploys.
+# Kept for local reference only.
 name = "conextsol-projects"
 compatibility_date = "2024-01-01"
-
-[site]
-bucket = "./dist"
